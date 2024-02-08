@@ -1,6 +1,8 @@
 import React, {useEffect, useState} from "react";
 import ShowMap from "./ShowMap";
-import Controls from "./Controls";
+import FormGroup from '@mui/material/FormGroup';
+import FormControlLabel from '@mui/material/FormControlLabel';
+import Checkbox from '@mui/material/Checkbox';
 import '../styles.css'
 
 function ShowISS() {
@@ -8,6 +10,8 @@ function ShowISS() {
   const [stationLat, setStationLat] = useState("0");
   const [stationLon, setStationLon] = useState("0");
   const [refreshInterval, setRefreshInterval] = useState(10000);
+
+  const [recenter, setRecenter] = useState(true);
 
   function UpdateStationPosition() {
     console.log("Fetching ISS position...");
@@ -34,8 +38,18 @@ function ShowISS() {
 
   return (
     <div className='iss'>
-      <ShowMap lat={stationLat} lon={stationLon} />
-      <Controls lat={stationLat} lon={stationLon} />
+      <ShowMap lat={stationLat} lon={stationLon} recenter={recenter} />
+
+      <div className='iss-controls'>
+        <div className='iss-controls-container' style={{display: "flex", flexDirection:"column"}}>
+          <h2>Where's the ISS?</h2>
+          <p>The ISS is currently over <b>{stationLat}&deg;N</b>, <b>{stationLon}&deg;E</b>.</p>
+          <br />
+          <FormGroup>
+            <FormControlLabel control={<Checkbox checked={recenter} onChange={() => setRecenter(!recenter)} />} label="Automatically re-center." />
+          </FormGroup>
+          </div>
+      </div>
     </div>
   );
 }

@@ -4,17 +4,19 @@ import { MapContainer, TileLayer, useMap, Marker } from 'react-leaflet';
 import 'leaflet/dist/leaflet.css'
 import '../styles.css'
 
-const RecenterAutomatically = ({lat, lon}) => {
+const RecenterAutomatically = ({lat, lon, recenter}) => {
     const map = useMap();
   
     useEffect(() => {
-      map.setView([lat, lon]);
+        if (recenter) {
+            map.setView([lat, lon]);
+        }
     }), [lat, lon];
   
     return null;
   }
 
-function ShowMap({ lat, lon }) {
+function ShowMap({ lat, lon, recenter }) {
 
     return (
         <div className='iss-container'>
@@ -25,7 +27,7 @@ function ShowMap({ lat, lon }) {
                     url='https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png'
                     />
                     <Marker position={[lat, lon]} />
-                    <RecenterAutomatically lat={lat} lon={lon} />
+                    <RecenterAutomatically lat={lat} lon={lon} recenter={recenter} />
                 </MapContainer>
             </div>
         </div>
